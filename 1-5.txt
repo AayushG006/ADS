@@ -1,0 +1,485 @@
+
+#include <iostream>
+using namespace std;
+class st1
+{
+    public:
+    int top;
+   
+  st1()
+  {
+     
+      top=-1;
+  }
+  int sta[3];
+      void push();
+      void pop();
+      void display();
+  };
+  
+void st1::push()
+{
+    if(top==2)
+    {
+        cout<<"stack is overflow"<<endl;
+    }
+    else
+    {
+        int key;
+        cout<<"eneter value of key to store"<<endl;
+        cin>>key;
+        top=top+1;
+        sta[top]=key;
+    }
+}
+
+void st1::pop()
+{
+    if(top==-1)
+    {
+        cout<<"stack is underflow"<<endl;
+    }
+    else
+    {
+        top=top-1;
+    }
+}
+
+void st1::display()
+{ 
+    if(top==-1)
+    {
+        cout<<"stack is empty"<<endl;
+    }
+    else
+    {
+        
+    for(int i=0;i<=top;i++)
+    {
+        cout<<sta[i]<<endl;
+    }
+    }
+
+}
+int main()
+{
+   
+    
+    st1 st2;
+    char ch;
+    do{
+    int choice;
+    
+    cout<<"enter your choice"<<endl<<"  1.push"<<endl<<"2.pop " <<endl<<"3.display"<<endl;
+    cin>>choice;
+    switch(choice)
+    {
+        case 1: st2.push();
+                   break;
+        case 2: st2.pop();
+                  break;
+        case 3: st2.display();
+                   break;
+        default: cout<<"invalid case";
+    }
+    cout<<"do yu want to continue press y for yes";
+    cin>>ch;
+}while(ch=='y'||ch=='Y');
+    return 0;
+}
+
+
+2.linked list
+
+#include<iostream>
+using namespace std;
+
+class node
+{
+    public:
+    int data;
+    node *next;
+    node *prev;
+
+    node(int data1)
+    {
+        data=data1;
+        next=NULL;
+        prev=NULL;
+    }
+};
+
+class stack
+{
+    public:
+    node *head;
+    node *top;
+    int key;
+
+    stack()
+    {
+        top=NULL;
+        head=NULL;
+    }
+
+    void push();
+    void pop();
+    void display();
+};
+
+void stack::push()
+{
+    int data1;
+    cout<<"Enter the value: ";
+    cin>>data1;
+    node *p=new node(data1);
+    if(head==NULL && top==NULL)
+    {
+        head=top=p;
+    }
+    else
+    {
+        top->next=p;
+        top=p;
+    }
+}
+
+void stack::pop()
+{
+    if(head==NULL && top==NULL)
+    {
+        cout<<"Stack is empty.";
+    }
+    else
+    {
+        cout << "The popped element is " << top->data << endl;
+        node* temp = top;
+        top = top->next;
+        delete temp;   }
+}
+
+void stack::display()
+{
+    if(head==NULL && top==NULL)
+    {
+        cout<<"Stack is empty.";
+    }
+    else
+    {
+        node*temp=head;
+        while(temp!=NULL)
+        {
+            cout<<temp->data<<", ";
+            temp=temp->next;
+        }
+        cout<<"NULL"<<endl;
+    }
+}
+
+int main()
+{
+    stack s;
+    s.push();
+    s.push();
+    s.push();
+    s.push();
+    s.display();
+    s.pop();
+    s.display();
+    s.pop();
+    s.display();
+    return 0;
+}
+
+3. revrse
+
+
+#include <iostream>
+using namespace std;
+class st1
+{
+    public:
+    int top;
+    st1()
+    {
+        top=-1;
+    }
+    char st2[100];
+    void push(char,int);
+    void pop();
+    void reversestring(string);
+};
+void st1::push(char ch,int top)
+{
+    if(top==99)
+    {
+        cout<<"stack is overflow";
+    }
+    else
+    {
+        st2[top]=ch;
+        cout<<st2[top]<<endl;
+    }
+}
+void st1::pop()
+{
+    if(top==-1)
+    {
+        cout<<"stack is underflow";
+    }
+    else
+    {
+        top--;
+    }
+}
+
+void st1::reversestring(string str)
+{
+    string str2;
+    str2=str;
+    for (char ch1:str)
+    {
+        top++;
+        push(ch1,top);
+    }
+    for(int i=0;i<str.length();i++)
+    {
+        str[i]=st2[top];
+        cout<<"stack top   "<<st2[top]<<endl;
+        pop();
+    }
+    cout<<"reversed string   "<<str<<endl;
+    if(str2==str){
+        cout<<"string is palindrome"<<endl;
+        
+    }
+    else
+    {
+        cout<<"not palindrome"<<endl;
+    }
+    
+}
+int main()
+{
+    st1 ss;
+    
+    string str;
+    cout<<"enter string to reverse"<<endl;
+    cin>>str;
+    cout<<"original string"<<str<<endl;
+    ss.reversestring(str);
+    //cout<<"reversed string"<<str<<endl;
+}
+
+4.//Write a Program to Implement queue operations using array 	
+
+#include<iostream>
+using namespace std;
+
+class Queue{
+private:
+    int front;
+    int rear;
+    int *arr;
+    int MaxSize;
+
+public:
+    Queue(int size){
+        MaxSize = size;
+        arr = new int[MaxSize];
+        front = -1;
+        rear = -1;
+    }
+    ~Queue(){
+        delete[]arr;
+    }
+
+    //isfull, isempty, enqueue, dequeue, peek
+
+    bool isfull(){
+        return rear == MaxSize-1;
+    }
+
+    bool isempty(){
+        return front == -1;
+    }
+
+    void enqueue(int data){
+        if(isfull()){
+            cout<<"Queue is full\n";
+        }
+        else{
+            if(isempty()){
+                front = 0;
+            }
+            arr[++rear] = data;
+            cout<<data<<" enqued\n";
+        }
+    }
+
+    int dequeue(){
+        if(isempty()){
+            cout<<"Queue is empty\n";
+            return -1;
+        }
+        else{
+            int dequeuedData = arr[front];
+            if(front == rear){
+                front = rear = -1;
+            }
+            else{
+                front++;
+            }
+            cout<<dequeuedData<<" has been removed\n";
+            return dequeuedData;
+        }
+    }
+
+    int peek(){
+        if(isempty()){
+            cout<<"Queue is empty\n";
+            return -1;
+        }
+        else{
+            cout<<arr[front]<<" is next data to be removed\n";
+            return arr[front];
+        }
+    }
+
+    void display(){
+        if(isempty()){
+            cout<<"Queue is empty\n";
+        }
+        else{
+            cout<<"Elements in queue are\n";
+            for(int i = front ; i<=rear ; i++){
+                cout<<arr[i]<<" -> ";
+            }
+            cout<<"Null\n";
+        }
+    }
+};
+
+int main(){
+    Queue q(5);
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.dequeue();
+    q.peek();
+    q.dequeue();
+    q.dequeue();
+    q.dequeue(); // Should display "Queue is empty"
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display();
+
+    return 0;
+}
+
+5//Write a Program to Implement queue operations using  Linked List
+
+#include<iostream>
+using namespace std;
+
+struct node{
+    int data;
+    node*next;
+};
+class Queue{
+private:
+    node*front;
+    node*rear;
+public:
+    Queue(){
+        front = nullptr;
+        rear = nullptr;
+    }
+
+    ~Queue() {
+        while (!isempty()) {
+            dequeue(); // Remove all nodes
+        }
+    }
+
+    bool isempty(){
+        return front == nullptr;
+    }
+
+    void enqueue(int data){
+        node*newnode = new node();
+        newnode->data = data;
+        newnode->next = nullptr;
+        if(isempty()){
+            front = rear = newnode;
+        }
+        else{
+            rear->next = newnode;
+            rear = newnode;
+        }
+        cout<<data<<" added sucessfully\n";
+    }
+
+    int dequeue(){
+        if(isempty()){
+            cout<<"Queue is empty\n";
+            return -1;
+        }
+        node*temp = front;
+        int data = temp->data;
+        front = front->next;
+        if(front == nullptr){
+            rear = nullptr;
+        }
+        delete temp;
+        cout<<"Data removed = "<<data<<endl;
+        return data;
+    }
+
+    int peek(){
+        if (isempty()){
+            cout<<"queue is empty\n";
+            return -1;
+        }
+        cout<<front->data<<" is first element of queue\n";
+        return front->data;
+    }
+
+    void display(){
+        if(isempty()){
+            cout<<"Queue is empty\n";
+        }
+        cout<<"Elements of queue are: \n";
+        node*temp = front;
+        while(temp!=nullptr){
+            cout<<temp->data<<"->";
+            temp = temp->next;
+        }
+        cout<<"NULL\n";
+    }
+};
+
+int main(){
+    Queue q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display(); // Should print: Queue elements are: 10 20 30
+
+    q.peek(); // Should print: 10 is at the front of the queue
+
+    q.dequeue(); // Should remove 10
+    q.display(); // Should print: Queue elements are: 20 30
+
+    q.dequeue(); // Should remove 20
+    q.dequeue(); // Should remove 30
+    q.dequeue(); // Should print: Queue is empty
+
+    q.enqueue(40);
+    q.enqueue(50);
+    q.display(); // Should print: Queue elements are: 40 50
+
+    return 0;
+}

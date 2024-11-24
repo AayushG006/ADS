@@ -1,0 +1,522 @@
+//Simulate Job Scheduling in Operating System using Queue in FCFS basis 1. Insert 2. Delete 3.Display
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+    int jobID;
+    string jobName;
+    Node* next;
+
+    Node(int id, string name) {
+        jobID = id;
+        jobName = name;
+        next = nullptr;
+    }
+};
+
+class JobQueue {
+private:
+    Node* front;
+    Node* rear;
+
+public:
+    JobQueue() {
+        front = nullptr;
+        rear = nullptr;
+    }
+
+    ~JobQueue() {
+        while (!isempty()) {
+            dequeue();
+        }
+    }
+
+    bool isempty() {
+        return front == nullptr;
+    }
+
+    void enqueue(int id, string name) {
+        Node* newJob = new Node(id, name);
+        if (isempty()) {
+            front = rear = newJob;
+        } else {
+            rear->next = newJob;
+            rear = newJob;
+        }
+        cout << "Job [" << id << "] - " << name << " added successfully.\n";
+    }
+
+    void dequeue() {
+        if (isempty()) {
+            cout << "No jobs to process. Queue is empty.\n";
+            return;
+        }
+        Node* temp = front;
+        cout << "Processing Job [" << temp->jobID << "] - " << temp->jobName << ".\n";
+        front = front->next;
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+        delete temp;
+    }
+
+    void display() {
+        if (isempty()) {
+            cout << "No jobs in the queue.\n";
+            return;
+        }
+        cout << "Jobs in the queue:\n";
+        Node* temp = front;
+        while (temp != nullptr) {
+            cout << "Job [" << temp->jobID << "] - " << temp->jobName << "\n";
+            temp = temp->next;
+        }
+    }
+};
+
+int main() {
+    JobQueue jq;
+    int choice, id;
+    string name;
+
+    do {
+        cout << "\n1. Insert Job\n2. Delete Job\n3. Display Jobs\n4. Exit\nEnter your choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter Job ID: ";
+                cin >> id;
+                cout << "Enter Job Name: ";
+                cin.ignore();
+                getline(cin, name);
+                jq.enqueue(id, name);
+                break;
+            case 2:
+                jq.dequeue();
+                break;
+            case 3:
+                jq.display();
+                break;
+            case 4:
+                cout << "Exiting the program.\n";
+                break;
+            default:
+                cout << "Invalid choice! Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+
+//Create Binary Tree and perform operations 1. Insert 2. Display 3. Display Leaf Nodes
+#include<iostream>
+using namespace std;
+
+struct Node{
+    int data;
+    Node*left;
+    Node*right;
+    Node(int val){
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+class binaryTree{
+private:
+    Node*root;
+    Node*insert(Node*node , int data){
+        if(node == nullptr){
+            return new Node(data);
+        }
+        if(data < node->data){
+            node->left = insert(node->left , data);
+        }
+        else{
+            node->right = insert(node->right , data);
+        }
+        return node;
+    }
+
+    void inorder(Node*node){
+        if(node != nullptr){
+            inorder(node->left);
+            cout<<node->data<<" ";
+            inorder(node->right);
+        }
+    }
+
+    void displayLeafNodes(Node*node){
+        if(node != nullptr){
+            if(node->left == nullptr && node->right == nullptr){
+                cout<<node->data<<" ";
+            }
+            displayLeafNodes(node->left);
+            displayLeafNodes(node->right);
+        }
+    }
+
+public:
+    binaryTree(){
+        root = nullptr;
+    }
+
+    void insert(int data){
+        root = insert(root , data);
+    }
+
+    void display(){
+        if(root == nullptr){
+            cout<<"Tree is empty\n";
+            return ;
+        }
+        cout<<"Inorder traversal: ";
+        inorder(root);
+        cout<<endl;
+    }
+
+    void displayLeafNodes(){
+        if(root == nullptr){
+            cout<<"Tree is empty\n";
+            return ;
+        }
+        cout<<"leaf nodes are: ";
+        displayLeafNodes(root);
+        cout<<" "<<endl;
+    }
+};
+
+int main(){
+    binaryTree bt;
+    int choice , data;
+
+    do{
+        cout << "\n1. Insert\n2. Display\n3. Display Leaf Nodes\n4. Exit\nEnter your choice: ";
+        cin >> choice;
+        switch (choice){
+            case 1:
+                cout<<"Enter a data: ";
+                cin>>data;
+                cout<<endl;
+                bt.insert(data);
+                break;
+            case 2:
+                bt.display();
+                break;
+            case 3:
+                bt.displayLeafNodes();
+                break;
+            case 4:
+                cout<<"Exitig the program";
+                break;
+            default:
+                cout<<"Enter valid choice(1-4)";
+        }
+    }
+    while(choice !=4);
+    return 0;
+}
+
+//Create Binary Tree and perform operations 1. Insert 2. Display inorder and preorder 3. Display Leaf Nodes
+
+#include<iostream>
+using namespace std;
+
+struct Node{
+    int data;
+    Node*left;
+    Node*right;
+    Node(int val){
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+class binaryTree{
+private:
+    Node*root;
+
+    Node*insert(Node*node , int data){
+        if(node == nullptr){
+            return new Node(data);
+        }
+        if(data < node->data){
+            node->left = insert(node->left, data);
+        }
+        else{
+            node->right = insert(node->right , data);
+        }
+        return node;
+    }
+
+    void inOrder(Node*node){
+        if(node != nullptr){
+            inOrder(node->left);
+            cout<<node->data<<" ";
+            inOrder(node->right);
+        }
+    }
+    void preOrder(Node*node){
+        if(node != nullptr){
+            cout<<node->data<<" ";
+            preOrder(node->left);
+            preOrder(node->right);
+        }
+    }
+
+    void displayLeafNodes(Node*node){
+        if(node != nullptr){
+            if(node->right == nullptr && node->left == nullptr){
+                cout<<node->data<<" ";
+            }
+            displayLeafNodes(node->left);
+            displayLeafNodes(node->right);
+        }
+    }
+
+public:
+    binaryTree(){
+        root = nullptr;
+    }
+
+    void insert(int data){
+        root = insert(root, data);
+    }
+
+    void inOrder(){
+        if(root == nullptr){
+            cout<<"Tree is empty\n";
+            return ;
+        }
+        cout<<"Inorder traversal: ";
+        inOrder(root);
+        cout<<endl;
+    }
+
+    void preOrder(){
+        if(root == nullptr){
+            cout<<"Tree is empty\n";
+            return ;
+        }
+        cout<<"Preorder traversal: "; 
+        preOrder(root);
+        cout<<endl;
+    }
+
+    void displayLeafNodes(){
+        if(root == nullptr){
+            cout<<"Tree is empty\n";
+            return ;
+        }
+        cout<<"Leaf noodes are: ";
+        displayLeafNodes(root);
+        cout<<endl;
+    }
+};
+
+int main(){
+    binaryTree bt;
+    int choice, data;
+
+    do{
+        cout << "\n1. Insert\n2. Display In-order\n3. Pre-order\n4. Display Leaf Nodes\n5. Exit\nEnter your choice: ";
+        cin >> choice;
+        switch(choice){
+            case 1:
+                cout<<"Enter a value: ";
+                cin>>data;
+                cout<<endl;
+                bt.insert(data);
+                break;
+            case 2:
+                bt.inOrder();
+                break;
+            case 3:
+                bt.preOrder();
+                break;
+            case 4:
+            cout<<"Leaf nodes are: ";
+                bt.displayLeafNodes();
+                break;
+            case 5:
+                cout<<"exiting a program...\n";
+                break;
+            default:
+                cout<<"Enter a valid number(1-5)";
+        }
+    }
+    while(choice !=5);
+    return 0;
+}
+
+
+//Store the final marks of students for subject ADS using BST and perform following operations. 1.Print marks in ascending order 2.Print min and max marks
+
+#include<iostream>
+using namespace std;
+
+struct Node{
+    int data;
+    Node*left;
+    Node*right;
+    Node(int val){
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+class binaryTree{
+private:
+    Node*root;
+
+    Node*insert(Node*node , int data){
+        if(node == nullptr){
+            return new Node(data);
+        }
+        if(data < node->data){
+            node->left = insert(node->left , data);
+        }
+        else{
+            node->right = insert(node->right , data);
+        }
+        return node;
+    }
+
+    void inOrder(Node*node){
+        if(node != nullptr){
+            inOrder(node->left);
+            cout<<node->data<<" ";
+            inOrder(node->right);
+        }
+    }
+
+    Node*findMax(Node*node){
+        while(node && node->right){
+            node = node->right;
+        }
+        return node;
+    }
+
+    Node*findMin(Node*node){
+        while(node && node->left){
+            node = node->left;
+        }
+        return node;
+    }
+
+public:
+    binaryTree(){
+        root = nullptr;
+    }
+
+    void Insert(int data){
+        root = insert(root , data);
+        cout<<data<<" added sucessfully.\n";
+    }
+
+    void display(){
+        cout<<"Marks of students are: ";
+        inOrder(root);
+        cout<<endl;
+    }
+
+    int getMin(){
+        Node*minNode = findMin(root);
+        return minNode ? minNode->data : -1;
+    }
+
+    int getMax(){
+        Node*maxNode = findMax(root);
+        return maxNode ? maxNode->data : -1;
+    }
+};
+
+int main(){
+    binaryTree bt;
+
+    bt.Insert(50);
+    bt.Insert(30);
+    bt.Insert(70);
+    bt.Insert(20);
+    bt.Insert(40);
+    bt.Insert(60);
+    bt.Insert(80);
+
+    // Print marks in ascending order
+    cout << "Marks in ascending order: ";
+    bt.display();
+
+    // Print the minimum and maximum marks
+    cout << "Minimum marks: " << bt.getMin() << endl;
+    cout << "Maximum marks: " << bt.getMax() << endl;
+
+    return 0;
+}
+
+
+#include <iostream>
+using namespace std;
+class node
+{
+    public:
+    int data;
+    node*left;
+    node*right;
+    node(int data1)
+    {
+        data=data1;
+        left=right=NULL;
+    }
+};
+
+void preorder(node*temp)
+{
+    if(temp==NULL)
+    return;
+    cout<<temp->data<<" ";
+    preorder(temp->left);
+    preorder(temp->right);
+    
+}
+
+void inorder(node*temp)
+{
+    if(temp==NULL)
+    return;
+    inorder(temp->left);
+    cout<<temp->data<<" ";
+    inorder(temp->right);
+}
+
+void postorder(node*temp)
+{
+    if(temp==NULL)
+    return;
+    postorder(temp->left);
+    postorder(temp->right);
+    cout<<temp->data<<" ";
+}
+
+int main()
+{
+    node*root=new node(33);
+    root->left=new node(49);
+    root->right=new node(87);
+    root->left->left=new node(6);
+    root->left->left->right=new node(8);
+    root->right->left=new node(43);
+    root->right->left->right=new node(7);
+    root->right->right=new node(45);
+    preorder(root);
+    cout<<"preorder"<<endl;
+    inorder(root);
+    cout<<"inorder"<<endl;
+    postorder(root);
+    cout<<"postorder"<<endl;
+    return 0;
+}

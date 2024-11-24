@@ -1,0 +1,532 @@
+
+#include <iostream>
+#include <stack>
+#include <cctype>
+
+using namespace std;
+
+
+struct TreeNode {
+    char data;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(char val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+
+bool isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+
+TreeNode* constructExpressionTree(const string& prefixExpression) {
+    stack<TreeNode*> stk;
+
+    for (int i = prefixExpression.size() - 1; i >= 0; i--) {
+        char currentChar = prefixExpression[i];
+
+        if (isalnum(currentChar)) {
+           
+            stk.push(new TreeNode(currentChar));
+        } else if (isOperator(currentChar)) {
+            
+            TreeNode* operand1 = stk.top();
+            stk.pop();
+
+            TreeNode* operand2 = stk.top();
+            stk.pop();
+
+          
+            TreeNode* newNode = new TreeNode(currentChar);
+
+          
+            newNode->left = operand1;
+            newNode->right = operand2;
+
+           
+            stk.push(newNode);
+        }
+    }
+
+   
+    return stk.top();
+}
+
+
+void inorderTraversal(TreeNode* root) {
+    if (root) {
+        inorderTraversal(root->left);
+        cout << root->data << " ";
+        inorderTraversal(root->right);
+    }
+}
+
+
+int main() {
+   
+    string prefixExpression;
+    cout << "Enter the prefix expression: ";
+    cin >> prefixExpression;
+
+   
+    TreeNode* root = constructExpressionTree(prefixExpression);
+
+   
+    cout << "Inorder traversal: ";
+    inorderTraversal(root);
+   
+    return 0;
+}
+
+
+
+#include <iostream>
+#include <stack>
+#include <cctype>
+
+using namespace std;
+
+
+struct TreeNode {
+    char data;
+    TreeNode* left;
+    TreeNode* right;
+
+    TreeNode(char val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+
+bool isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+
+TreeNode* constructExpressionTree(const string& postfixExpression) {
+    stack<TreeNode*> stk;
+
+    for (int i = 0; i< postfixExpression.size();i++) {
+        char currentChar = postfixExpression[i];
+
+        if (isalnum(currentChar)) {
+           
+            stk.push(new TreeNode(currentChar));
+        } else if (isOperator(currentChar)) {
+            
+            TreeNode* operand1 = stk.top();
+            stk.pop();
+
+            TreeNode* operand2 = stk.top();
+            stk.pop();
+
+          
+            TreeNode* newNode = new TreeNode(currentChar);
+
+          
+            newNode->left = operand2;
+            newNode->right = operand1;
+
+           
+            stk.push(newNode);
+        }
+    }
+
+   
+    return stk.top();
+}
+
+
+void inorderTraversal(TreeNode* root) {
+    if (root) {
+        inorderTraversal(root->left);
+        cout << root->data << " ";
+        inorderTraversal(root->right);
+    }
+}
+
+
+int main() {
+   
+    string postfixExpression;
+    cout << "Enter the postfix expression: ";
+    cin >> postfixExpression;
+
+   
+    TreeNode* root = constructExpressionTree(postfixExpression);
+
+   
+    cout << "Inorder traversal: ";
+    inorderTraversal(root);
+    
+    return 0;
+}
+
+
+#include <iostream>
+using namespace std;
+
+
+int main()
+{
+    int stv;
+    int v;
+    cout<<"enter number of vertices in graph"<<endl;
+    cin>>v;
+    int total_distance=0;
+    int mindistance;
+    int nextnode;
+    int visited[v];
+    int distance[v];
+    int from[v];
+   int adj[v][v];
+   cout<<"enter adjacenecy matrix"<<endl;
+   for(int i=0;i<v;i++)
+   {
+       for(int j=0;j<v;j++)
+       {
+           cout<<"enter weight from vertex  "<<i<<"  to vertex "<<j<<endl;
+           cin>>adj[i][j];
+       }
+   }
+   
+   // printed adjacency matrix
+   cout<<"entered Adjacency matrix"<<endl;
+   for(int i=0;i<v;i++)
+   {
+       for(int j=0;j<v;j++)
+       {
+           cout<<adj[i][j]<<"   ";
+       }
+       cout<<endl;
+   }
+   // initialized visited distance and from arrays
+   for(int i=0;i<v;i++)
+   {
+       visited[i]=0;
+       distance[i]=9999;
+       from[i]=0;
+   }
+   
+   // replace all 0 values with 999
+    for(int i=0;i<v;i++)
+   {
+       for(int j=0;j<v;j++)
+       {
+          if(adj[i][j]==0)
+          {
+              adj[i][j]=999;
+          }
+       }
+      
+   }
+   
+   cout<<"enter starting vertx"<<endl;
+   cin>>stv;
+   visited[stv]=1;
+   distance[stv]=0;
+   for(int i=0;i<v;i++)
+   {
+       distance[i]=adj[stv][i];
+       from[i]=stv;
+   }
+   
+  
+   cout<<"visited [ ";
+   for(int i=0;i<v;i++)
+   {
+       cout<<visited[i]<<" ";
+   }
+    cout<<" ]";
+    cout<<endl;
+     cout<<"distance [ ";
+   for(int i=0;i<v;i++)
+   {
+       cout<<distance[i]<<" ";
+   }
+    cout<<" ]";
+    cout<<endl;
+    cout<<"from [ ";
+   for(int i=0;i<v;i++)
+   {
+       cout<<from[i]<<" ";
+   }
+    cout<<" ]";
+    cout<<endl;
+    
+    int count=1;
+
+  while(count<v-1)
+  {
+  mindistance=999;
+      for(int i=0;i<v;i++)
+         if(distance[i]<mindistance&&!visited[i]) {
+         mindistance=distance[i];
+         nextnode=i;
+      }
+      visited[nextnode]=1;
+      for(int i=0;i<v;i++)
+         if(!visited[i])
+      if(adj[nextnode][i]<distance[i]) {
+         distance[i]=adj[nextnode][i];
+         from[i]=nextnode;
+      }
+      count++;
+      cout<<"visited"<<" ";
+      for(int i=0;i<v;i++)
+      {
+          cout<<visited[i]<<" ";
+      }
+      cout<<endl;
+      cout<<"diistance"<<" ";
+       for(int i=0;i<v;i++)
+      {
+          cout<<distance[i]<<" ";
+      }
+      cout<<endl;
+      cout<<"From"<<" ";
+      for(int i=0;i<v;i++)
+      {
+          cout<<from[i]<<" ";
+      }
+      cout<<endl;
+      cout<<"----------------------------------------------";
+      cout<<endl;
+   }
+   cout<<"path to follow"<<endl;
+    for(int i=0;i<v;i++)
+    {
+        if(i!=from[i])
+        {
+            if(from[i]!=stv)
+        {
+            
+        cout<<from[i]<<" to "<<i<<" -> "<<distance[i]<<endl;
+        total_distance=total_distance+distance[i];
+        }
+        else
+        {
+            cout<<from[i]<<" to "<<i<<" -> "<<distance[i]<<endl;
+        total_distance=total_distance+distance[i];
+        }
+    }
+    }
+    
+    cout<<endl<<"Total Path Length = "<<total_distance;
+    return 0;
+}
+
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+#define INFINITY 9999
+#define max 6
+void dijkstra(int G[max][max],int n,int startnode);
+int main() {
+   int G[max][max];//={{0,1,0,3,10},{1,0,5,0,0},{0,5,0,2,1},{3,0,2,0,6},{10,0,1,6,0}};
+   cout<<"Enter Adjacency Matrix"<<endl;
+   for(int i=0;i<max;i++)
+   {
+       for(int j=0;j<max;j++)
+       {
+           cout<<"enter distance from vertex "<<i<<" to vertex "<<j<<endl;
+           cin>>G[i][j];
+       }
+   }
+   int u=0;
+   int n=max;
+   cout<<"eneter starting vertex"<<endl;
+   cin>>u;
+   dijkstra(G,n,u);
+   return 0;
+}
+void dijkstra(int G[max][max],int n,int startnode) {
+   int cost[max][max],distance[max],pred[max];
+   int visited[max],count,mindistance,nextnode,i,j;
+   for(i=0;i<n;i++)
+      for(j=0;j<n;j++)
+   if(G[i][j]==0)
+      cost[i][j]=INFINITY;
+   else
+      cost[i][j]=G[i][j];
+   for(i=0;i<n;i++) {
+      distance[i]=cost[startnode][i];
+      pred[i]=startnode;
+      visited[i]=0;
+   }
+   distance[startnode]=0;
+   visited[startnode]=1;
+   count=1;
+   while(count<n-1) {
+      mindistance=INFINITY;
+      for(i=0;i<n;i++)
+         if(distance[i]<mindistance&&!visited[i]) {
+         mindistance=distance[i];
+         nextnode=i;
+      }
+      visited[nextnode]=1;
+      for(i=0;i<n;i++)
+         if(!visited[i])
+      if(mindistance+cost[nextnode][i]<distance[i]) {
+         distance[i]=mindistance+cost[nextnode][i];
+         pred[i]=nextnode;
+      }
+      count++;
+   }
+   for(i=0;i<n;i++)
+   if(i!=startnode) {
+      cout<<"\nDistance of node"<<i<<"="<<distance[i];
+      cout<<"\nPath="<<i;
+      j=i;
+      do {
+         j=pred[j];
+         cout<<"<-"<<j;
+      }while(j!=startnode);
+   }
+}
+
+
+#include <iostream>
+using namespace std;
+int main()
+
+{
+    int n;
+    cout<<"enter number of words"<<endl;
+    cin>>n;
+    int p[n];
+    int q[n+1];
+    cout<<"enter probability of successfull search"<<endl;
+    for(int i=1;i<=n;i++)
+    {
+        cout<<"enter probability of p["<<i<<"]"<<endl;
+        cin>>p[i];
+    }
+    cout<<endl<<"-------------------------------------------"<<endl;
+    cout<<endl<<"probability of successfull search"<<endl;
+    cout<<endl<<"-------------------------------------------"<<endl;
+     for(int i=1;i<=n;i++)
+    {
+        cout<<endl<<"probability of p["<<i<<"]="<<p[i]<<endl;
+        
+    }
+    cout<<endl<<"-------------------------------------------"<<endl;
+     cout<<"enter probability of unsuccessfull search"<<endl;
+    for(int i=0;i<=n;i++)
+    {
+        cout<<"enter probability of q["<<i<<"]"<<endl;
+        cin>>q[i];
+    }
+    cout<<endl<<"probability of unsuccessfull search"<<endl;
+    cout<<endl<<"-------------------------------------------"<<endl;
+     for(int i=0;i<=n;i++)
+    {
+        cout<<endl<<"probability of q["<<i<<"]="<<q[i]<<endl;
+        
+    }
+    
+    int rw[n];
+    int c[n][n];
+    int w[n][n];
+    int r[n][n];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            c[i][j]=0;
+            w[i][j]=0;
+            r[i][j]=0;
+        }
+    }
+    int m=n;
+    while(m>0)
+    {
+        if(m==n)
+        {
+            for(int i=0;i<n;i++)
+            {
+                w[i][i]=q[i]+p[i+1]+q[i+1];
+                c[i][i]=w[i][i];
+                r[i][i]=i;
+            
+            
+        }
+        
+        m=m-1;
+        for(int i=0;i<n;i++)
+        {
+            cout<<endl<<"-------------------------------------------"<<endl;
+        cout<<endl<<"w["<<i<<"]["<<i<<"]= "<<w[i][i]<<endl;
+             cout<<endl<<"c["<<i<<"]["<<i<<"]= "<<c[i][i]<<endl;
+              cout<<endl<<"r["<<i<<"]["<<i<<"]= "<<r[i][i]<<endl;
+              cout<<endl<<"-------------------------------------------"<<endl;
+        }
+    }
+    if(m==(n-1))
+    {
+        for(int i=0;i<n-1;i++)
+        {
+            int j=i+1;
+            w[i][j]=q[i]+q[j]+q[j+1]+p[j]+p[j+1];
+            for(int k=i;k<=j;k++)
+            {
+                rw[k]=c[i][k-1]+c[k+1][j];
+            }
+            if(rw[i]>rw[j])
+            {
+                c[i][j]=rw[j]+w[i][j];
+                r[i][j]=j;
+                cout<<endl<<"-------------------------------------------"<<endl;
+                cout<<endl<<"w["<<i<<"]["<<j<<"]= "<<w[i][j]<<endl;
+             cout<<endl<<"c["<<i<<"]["<<j<<"]= "<<c[i][j]<<endl;
+              cout<<endl<<"r["<<i<<"]["<<j<<"]= "<<r[i][j]<<endl;
+                
+            }
+            else
+            {
+                c[i][j]=rw[i]+w[i][j];
+                r[i][j]=i;
+                 cout<<endl<<"-------------------------------------------"<<endl;
+                cout<<endl<<"w["<<i<<"]["<<j<<"]= "<<w[i][j]<<endl;
+             cout<<endl<<"c["<<i<<"]["<<j<<"]= "<<c[i][j]<<endl;
+              cout<<endl<<"r["<<i<<"]["<<j<<"]= "<<r[i][j]<<endl;
+            }
+        }
+        m=m-1;
+    }
+    
+    if(m==(n-2))
+    {
+         for(int i=0;i<n-2;i++)
+         {
+             int j=i+2;
+              w[i][j]=w[i][i+1]+q[j+1]+p[j+1];
+               for(int k=i;k<=j;k++)
+            {
+                rw[k]=c[i][k-1]+c[k+1][j];
+            }
+            int min=9999;
+            int ds;
+            for(int k=i;k<=j;k++)
+            {
+                if(rw[k]<min)
+                {
+                    min=rw[k];
+                    ds=k;
+                }
+            }
+            
+            c[i][j]=min+w[i][j];
+            r[i][j]=ds;
+            cout<<endl<<"-------------------------------------------"<<endl;
+                cout<<endl<<"w["<<i<<"]["<<j<<"]= "<<w[i][j]<<endl;
+             cout<<endl<<"c["<<i<<"]["<<j<<"]= "<<c[i][j]<<endl;
+              cout<<endl<<"r["<<i<<"]["<<j<<"]= "<<r[i][j]<<endl;
+              
+         }
+          m=m-1;
+    }
+   
+}
+    return 0;
+}

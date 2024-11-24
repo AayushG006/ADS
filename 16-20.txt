@@ -1,0 +1,440 @@
+
+#include <iostream>
+using namespace std;
+int main()
+{
+int n;
+cout<<"enter size of hash table"<<endl;
+cin>>n;
+ int ht[n];
+ int key;
+ int hkey;
+ 
+ for(int i=0 ; i < n ; i++)
+{
+    ht[i]=-1;
+}
+for(int i=0 ; i < n ; i++)
+{
+    cout<<"  "<<ht[i]<<endl;
+}
+  
+  for(int i=0;i<n;i++)
+  {
+      cout<<"enter  key value"<<endl;
+      cin>>key;
+      
+      hkey=key%n;
+      if(ht[hkey]==-1)
+      {
+          cout<<"key stored at index "<<hkey<<endl;
+          ht[hkey]=key;
+          for(int i=0 ; i < n ; i++)
+{
+    cout<<"  "<<ht[i]<<endl;
+}
+      }
+      else
+      {
+          for(int i=1;i<n;i++)
+          {
+             int m=hkey+i;
+             int s=m%n;
+              if(ht[s]==-1)
+              {
+                  ht[s]=key;
+                  cout<<"key stored at index "<<s<<endl;
+                  for(int i=0 ; i < n ; i++)
+{
+    cout<<"  "<<ht[i]<<endl;
+}
+                  break;
+              }
+          }
+          
+      }
+  }
+ 
+  
+  
+  
+  
+  
+  
+    return 0;
+}
+
+//heap tree
+#include <iostream>
+using namespace std;
+
+
+class HeapOperations {
+private:
+    int* marks; 
+    int size;   
+
+
+    // Heapify function for Max-Heap
+    void maxHeapify(int arr[], int n, int i) {
+        int largest = i;   // Initialize largest as root
+         cout<<endl<<"value of i="<<i<<endl;
+        int left = 2 * i + 1;  // Left child
+        int right = 2 * i + 2; // Right child
+
+        // If left child is larger than root
+        if (left < n && arr[left] > arr[largest])
+            largest = left;
+
+        // If right child is larger than largest so far
+        if (right < n && arr[right] > arr[largest])
+            largest = right;
+        cout<<endl<<"largest element is "<<arr[largest]<<endl;
+        // If largest is not root
+        if (largest != i) {
+            swap(arr[i], arr[largest]);
+         cout<<endl;
+        for(int k=0;k<n;k++)
+        {
+            cout<<"|  "<<arr[k]<<"  |";
+        }
+        cout<<endl<<"affected element is "<<arr[largest]<<" apply recursive heapify onit"<<endl;
+            // Recursively heapify the affected sub-tree
+            maxHeapify(arr, n, largest);
+         cout<<endl;
+        for(int k=0;k<n;k++)
+        {
+            cout<<"|  "<<arr[k]<<"  |";
+        }
+        }
+    }
+
+public:
+    // Constructor to initialize the array and its size
+    HeapOperations(int inputMarks[], int n) {
+        marks = inputMarks;
+        size = n;
+    }
+
+
+    // Function to find maximum marks using Max-Heap
+    int findMaxMarks() {
+        // Build the Max-Heap (heapify all non-leaf nodes)
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            maxHeapify(marks, size, i);
+        }
+        // The maximum value will be at the root (marks[0])
+        return marks[0];
+    }
+};
+
+int main() {
+    // Input: Marks obtained by students in the second year
+    int n;
+    cout<<"enter number of students in class"<<endl;
+    cin>>n;
+    int studentMarks[n];
+  
+   for(int k=0;k<n;k++)
+   {
+       cout<<"enter the marks of "<<k+1<<" th student"<<endl;
+       cin>>studentMarks[k];
+   }
+
+    // Create an object of the HeapOperations class
+    HeapOperations heapOps(studentMarks, n);
+
+    // Find and display the maximum marks
+    int maxMarks = heapOps.findMaxMarks();
+    cout <<endl<< "Maximum Marks: " << maxMarks << endl;
+
+    return 0;
+}
+
+#include <iostream>
+using namespace std;
+
+
+class HeapOperations {
+private:
+    int* marks; 
+    int size;   
+
+    // Heapify function for Min-Heap
+    void minHeapify(int arr[], int n, int i) {
+        int smallest = i; 
+        cout<<endl<<"value of i="<<i<<endl;
+        // Initialize smallest as root
+        int left = 2 * i + 1;  // Left child
+        int right = 2 * i + 2; // Right child
+
+        // If left child is smaller than root
+        if (left < n && arr[left] < arr[smallest])
+            smallest = left;
+
+        // If right child is smaller than smallest so far
+        if (right < n && arr[right] < arr[smallest])
+            smallest = right;
+
+        // If smallest is not root
+        cout<<endl<<"smallest element is "<<arr[smallest]<<endl;
+        if (smallest != i) {
+            swap(arr[i], arr[smallest]);
+        cout<<endl;
+        for(int k=0;k<n;k++)
+        {
+            cout<<"|  "<<arr[k]<<"  |";
+        }
+            // Recursively heapify the affected sub-tree
+            cout<<endl<<"affected element is "<<arr[smallest]<<" apply recursive heapify onit"<<endl;      
+            minHeapify(arr, n, smallest);
+            cout<<endl<<"after recursive call"<<endl;
+        for(int k=0;k<n;k++)
+        {
+            cout<<"|  "<<arr[k]<<"  |";
+        }
+        }
+    }
+    public:
+    // Constructor to initialize the array and its size
+    HeapOperations(int inputMarks[], int n) {
+        marks = inputMarks;
+        size = n;
+    }
+
+    // Function to find minimum marks using Min-Heap
+    int findMinMarks() {
+        // Build the Min-Heap (heapify all non-leaf nodes)
+        for (int i = size / 2 - 1; i >= 0; i--) {
+            minHeapify(marks, size, i);
+        }
+        // The minimum value will be at the root (marks[0])
+        return marks[0];
+    }
+
+};
+
+int main() 
+{
+    // Input: Marks obtained by students in the second year
+    int n;
+    cout<<"enter number of students in class"<<endl;
+    cin>>n;
+    int studentMarks[n];
+  
+   for(int k=0;k<n;k++)
+   {
+       cout<<"enter the marks of "<<k+1<<" th student"<<endl;
+       cin>>studentMarks[k];
+   }
+
+    // Create an object of the HeapOperations class
+    HeapOperations heapOps(studentMarks, n);
+
+    // Find and display the minimum marks
+    int minMarks = heapOps.findMinMarks();
+    cout <<endl<< "Minimum Marks: " << minMarks << endl;
+
+    return 0;
+}
+
+/* Circular Queue using Array */
+
+#include <iostream>
+using namespace std;
+
+class CircularQueue{
+    
+    int size;
+    int front;
+    int rear;
+    int* arr;
+    
+    public:
+    
+        CircularQueue(int size){
+            
+            front = -1;
+            rear = -1;
+            this->size = size;
+            arr = new int[size];
+        }
+    
+        void enqueue(){
+            
+            int data;
+            
+            cout << "\nEnter data: ";
+            cin >> data;
+            
+            if( (rear+1) % size == front){
+                
+                cout << "\nQueue OVERFLOW!!" << endl;
+                return;
+            }
+            
+            // if queue was initially empty
+            
+            if(front == -1){
+                front = 0;
+            }
+            
+            rear = (rear+1)%size;
+            arr[rear] = data;
+        }
+        
+        int dequeue(){
+            
+            int data;
+            
+            if(front == -1){
+                cout << "Queue UNDERFLOW!!\nNothing to Remove!!";
+                return -1;
+            }
+            
+            data = arr[front];
+            
+            // If there is only one element in the queue
+            
+            if(rear == front){
+                
+                front = rear = -1;
+                
+            } else {
+                
+                front = (front + 1) % size;
+                
+            }
+            
+            
+            return data;
+            
+        }
+        
+        void display(){
+            
+            if(front == -1){
+                cout << "Queue UNDERFLOW!!\nNothing to Display!!";
+                return;
+            }
+            
+            int i = front;
+            
+            cout << "\nQueue Elements: ";
+            
+            while(true){
+                
+                cout << arr[i] << " ";
+                
+                if (i == rear) {
+                    break;
+                }
+                
+                i = (i+1)%size;
+                
+            }
+            
+        }
+};
+
+int main() {
+    
+    cout<<"\nHello World\n\n";
+
+    int size;
+    int choice;
+    int data;
+    char ch;
+
+    cout << "Enter Size of Queue: ";
+    cin >> size;
+
+    CircularQueue queue(size);
+
+    do {
+        
+        cout << "\n\n1. Enqueue" << endl
+             << "2. Dequeue" << endl
+             << "3. Display Queue\n" << endl;
+
+        cout << "\n\nEnter choice number: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            queue.enqueue();
+            break;
+
+        case 2:
+            data = queue.dequeue();
+
+            if (data != -1) {
+                cout << "\n\nDequeued " << data << "\n\n" << endl;
+            }
+            break;
+
+        case 3:
+            queue.display();
+            break;
+
+        default:
+            cout << "Invalid Choice!!" << endl;
+            break;
+        }
+
+        cout << "\n\nContinue?? (Y/N): ";
+        cin >> ch;
+
+    } while (ch == 'y' || ch == 'Y');
+
+
+    return 0;
+}
+
+/* Convert Decimal to Binary using stack */
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+
+void decimalTobinary(int decimal){
+    
+    int original = decimal;
+    stack<int> stk;
+    
+    if(decimal == 0){
+        cout << "Binary for " << decimal << ": " << '0';
+        return;
+    }
+    
+    while(decimal > 0){
+        
+        stk.push(decimal % 2);
+        decimal = decimal / 2;
+    }
+    
+    cout << "Binary for " << original << ": ";
+    
+    while(!stk.empty()){
+        
+        cout << stk.top();
+        stk.pop();
+        
+    }
+    
+}
+
+int main()
+{
+    int decimal;
+    
+    cout<<"\nHello World\n\n";
+
+    cout << "Enter decimal number: ";
+    cin >> decimal;
+    
+    decimalTobinary(decimal);
+
+    return 0;
+}
